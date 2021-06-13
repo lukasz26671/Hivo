@@ -1,8 +1,8 @@
-#include "Lexer.h"
+#include "includes/Lexer.h"
 #include <string>
 #include <ctype.h>
 #include <iostream>
-#include "global.h"
+#include "includes/global.h"
 
 namespace Hivo {
 

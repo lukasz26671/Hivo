@@ -149,20 +149,20 @@
     <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AST.h" />
-    <ClInclude Include="builtin.h" />
-    <ClInclude Include="global.h" />
-    <ClInclude Include="Hivo.h" />
-    <ClInclude Include="io.h" />
-    <ClInclude Include="Lexer.h" />
-    <ClInclude Include="nameof.h" />
-    <ClInclude Include="Parser.h" />
-    <ClInclude Include="Token.h" />
-    <ClInclude Include="Utils.h" />
-    <ClInclude Include="Visitor.h" />
+    <ClInclude Include="includes\AST.h" />
+    <ClInclude Include="includes\builtin.h" />
+    <ClInclude Include="includes\global.h" />
+    <ClInclude Include="includes\Hivo.h" />
+    <ClInclude Include="includes\io.h" />
+    <ClInclude Include="includes\Lexer.h" />
+    <ClInclude Include="includes\nameof.h" />
+    <ClInclude Include="includes\Parser.h" />
+    <ClInclude Include="includes\Token.h" />
+    <ClInclude Include="includes\Utils.h" />
+    <ClInclude Include="includes\Visitor.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Test.hv" />
+    <None Include="examples\Test.hv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

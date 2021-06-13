@@ -1,7 +1,7 @@
-#include "Token.h"
+#include "includes/Token.h"
 #include <iostream>
-#include "Utils.h"
-#include "global.h"
+#include "includes/Utils.h"
+#include "includes/global.h"
 
 namespace Hivo {
 

@@ -1,10 +1,10 @@
 #include <iostream>
 #include <stdio.h>
-#include "Parser.h"
-#include "AST.h"
-#include "Lexer.h"
-#include "Token.h"
-#include "global.h"
+#include "includes/Parser.h"
+#include "includes/AST.h"
+#include "includes/Lexer.h"
+#include "includes/Token.h"
+#include "includes/global.h"
 
 namespace Hivo {
 	Parser::Parser(Lexer* lexer) 

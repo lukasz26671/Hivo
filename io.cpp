@@ -1,4 +1,4 @@
-#include "io.h"
+#include "includes/io.h"
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -6,7 +6,7 @@
 #include <sstream>
 
 namespace Hivo {
-	std::string getFileContents(std::string filePath)
+	std::string getFileContents(std::string filePath, const bool& debugMode=false)
 	{
 		std::ifstream sourceFile;
 		std::string contents;
@@ -35,13 +35,21 @@ namespace Hivo {
 				contents.append(line);
 				ln++;
 			}
-			std::cout << contents;
+			if (contents == "")
+			{
+				printf("File %s is empty", filePath.c_str());
+			}
+
+			if(debugMode)
+				std::cout << contents;
+
 			sourceFile.close();
 			return contents;
 		}
 		catch (std::exception ex)
 		{
 			printf("Error reading file %s\n%s", filePath.c_str(), ex.what());
+			exit(2);
 		}
 	}
 }

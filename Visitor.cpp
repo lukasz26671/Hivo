@@ -1,11 +1,11 @@
-#include "Visitor.h"
-#include "Utils.h"
-#include "global.h"
+#include "includes/Visitor.h"
+#include "includes/Utils.h"
+#include "includes/global.h"
 #include <iostream>
 #include <stdio.h>
-#include "nameof.h"
-#include "AST.h"
-#include "builtin.h"
+#include "includes/nameof.h"
+#include "includes/AST.h"
+#include "includes/builtin.h"
 
 namespace Hivo {
 

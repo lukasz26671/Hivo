@@ -1,18 +1,20 @@
 ﻿#include <iostream>
-#include "Lexer.h"
+#include "includes/Lexer.h"
 #include <stdio.h>
-#include "Parser.h"
-#include "global.h"
+#include "includes/Parser.h"
+#include "includes/global.h"
 #include <numeric>
-#include "Visitor.h"
-#include "io.h"
-#include "Hivo.h"
+#include "includes/Visitor.h"
+#include "includes/io.h"
+#include "includes/Hivo.h"
 
 
 using namespace Hivo;
 
 void PrintTrace(Hivo::AST* root)
 {
+    std::cout << '\n';
+
     for (auto const& node : root->compoundValue)
     {
         auto nodeType = node->type;
@@ -20,7 +22,6 @@ void PrintTrace(Hivo::AST* root)
         std::string adValue;
         std::string bltn;
         int k = 0;
-
         switch (nodeType) {
 
         case AST_FUNCTION_CALL:
@@ -93,13 +94,18 @@ typedef struct HIVO_STRUCT{
 */
 int main(int argc, char** argv)
 {
+#ifdef _DEBUG
+    bool debug = true;
+#else
+    bool debug = false;
+#endif
 
+    HivoInternals* HivoLanguage = new HivoInternals();
     if (argc > 1) {
-        HivoInternals* HivoLanguage = new HivoInternals();
-
-        std::string sourceCode = getFileContents(argv[1]);
 
         bool debug = false;
+
+        std::string sourceCode = getFileContents(argv[1], debug);
 
         if (argc > 2) 
             debug = strcmp(argv[2], "-d") == 0;
@@ -107,27 +113,13 @@ int main(int argc, char** argv)
         HivoLanguage->init(sourceCode, debug);
 
         HivoLanguage->deinit();
-
-        delete HivoLanguage;
     }
     else {
-        HivoInternals* HivoLanguage = new HivoInternals();
-
-        std::string sourceCode = getFileContents("Test.hv");
-
-        bool debug = true;
-
-        if (argc > 2)
-            debug = strcmp(argv[2], "-d") == 0;
-
-        HivoLanguage->init(sourceCode, debug);
-
-        HivoLanguage->deinit();
-
-        delete HivoLanguage;
+        printf("Usage:\nHivo <filename> [-d]");
     }
-    
-    std::cout << "\n" << "Press any key to end." << "\n";
+    delete HivoLanguage;
+
+    std::cout << "\n" << "Press enter or return key to end." << "\n";
 
     std::string ps;
 

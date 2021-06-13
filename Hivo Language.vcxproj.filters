@@ -41,42 +41,42 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lexer.h">
+    <ClInclude Include="includes\AST.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Token.h">
+    <ClInclude Include="includes\builtin.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="AST.h">
+    <ClInclude Include="includes\global.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
+    <ClInclude Include="includes\Hivo.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Parser.h">
+    <ClInclude Include="includes\io.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="global.h">
+    <ClInclude Include="includes\Lexer.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Visitor.h">
+    <ClInclude Include="includes\nameof.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="nameof.h">
+    <ClInclude Include="includes\Parser.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="builtin.h">
+    <ClInclude Include="includes\Token.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="io.h">
+    <ClInclude Include="includes\Utils.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Hivo.h">
+    <ClInclude Include="includes\Visitor.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Test.hv">
+    <None Include="examples\Test.hv">
       <Filter>Pliki źródłowe\examples</Filter>
     </None>
   </ItemGroup>

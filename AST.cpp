@@ -1,6 +1,6 @@
-#include "AST.h"
-#include "Utils.h"
-#include "global.h"
+#include "includes/AST.h"
+#include "includes/Utils.h"
+#include "includes/global.h"
 
 namespace Hivo {
 
