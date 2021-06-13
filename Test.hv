@@ -1,0 +1,9 @@
+let hv = "Hello, Hivo Language!"; 
+
+println(hv);
+
+let helloWorld = "Hello, world!";
+
+let abcdefg = "123";//abc
+
+println(helloWorld);//a
