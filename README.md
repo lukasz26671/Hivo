@@ -1,6 +1,6 @@
 # Hivo
 
-### What is Hivo?
+## What is Hivo?
 
 Hivo is a high-level dynamic, weakly typed programming language.  
 Its' JS-Like syntax will make learning a lot easier.  
@@ -8,13 +8,15 @@ Its' JS-Like syntax will make learning a lot easier.
 Main purpose of Hivo is making cross-site requests very simple, with a minimum of effort realistically.  
 Underlying level of abstraction provides easy access to OS level functions as well as other language execution.  
 
-### Compatibillity
+## Compatibillity
 
+As of today (14/06/21 or 06/14/21) there's no working Linux and/or Mac OS build.
 
+## Contribution
 
-#### Examples
+You are free to contribute to this project. However, you may not use this code or distribute it without any personal agreement.  
 
-##### Run a program
+#### Run a program
 
 - shell  
 ```console
@@ -28,6 +30,9 @@ PS C:\users\user> Hivo helloworld.hv
 ```cmd
 C:\users\user Hivo helloworld.hv
 ```
+
+### Examples
+
 
 ##### Hello World
 
