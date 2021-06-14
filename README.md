@@ -31,7 +31,9 @@ function foo(a)
 
 let variable = "John";
 
-pbrkp(); //-> place break point ; Press enter/any key to continue...
+pbrkp(); //-> place break point 
+
+//; Press enter/any key to continue...
 
 println(variable); // John
 ```
