@@ -44,6 +44,9 @@ void PrintTrace(Hivo::AST* root)
             adValue = " with value: ";
             adValue.append(node->variableDefinitionValue->stringValue);
             break;
+        case AST_FUNCTION_DEFINITION:
+            value = "Function Definition _[" + node->functionName + "]_ WITH PARAMS []";
+            break;
         case AST_VARIABLE:
             value = "Variable _[" + node->variableName + "]_";
             break;
@@ -65,11 +68,15 @@ typedef struct HIVO_STRUCT{
     void init(std::string sourceCode, bool printTrace=false) {
         lexer = new Lexer(sourceCode);
         parser = new Parser(lexer);
-        root = parser->parse(parser);
+        root = parser->parse(parser, parser->globalScope);
         visitor = new Visitor();
+
+        std::cout << '\n';
 
         if (printTrace)
             PrintTrace(root);
+
+        std::cout << '\n';
 
         try {
             visitor->visit(root);
@@ -115,7 +122,18 @@ int main(int argc, char** argv)
         HivoLanguage->deinit();
     }
     else {
+#ifndef _DEBUG
         printf("Usage:\nHivo <filename> [-d]");
+#else
+        std::string sourceCode = getFileContents("./examples/Test.hv", debug);
+
+        if (argc > 2)
+            debug = strcmp(argv[2], "-d") == 0;
+
+        HivoLanguage->init(sourceCode, debug);
+
+        HivoLanguage->deinit();
+#endif
     }
     delete HivoLanguage;
 

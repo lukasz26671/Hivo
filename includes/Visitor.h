@@ -14,12 +14,6 @@ namespace Hivo {
 		AST* previousNode;
 		AST* prevPreviousNode;
 
-		std::vector<AST*> variableDefinitions;
-		size_t variableDefinitionsSize = 0;
-
-		std::vector<AST*> functionDeclarations;
-		size_t functionDeclarationsSize = 0;
-
 		AST* visit(AST* node);
 
 		AST* visitVariableDefinition(AST* node);
@@ -30,7 +24,7 @@ namespace Hivo {
 
 		AST* visitFunctionCall(AST* node);
 
-		AST* visitFuncionDeclaration(AST* node);
+		AST* visitFunctionDefinition(AST* node);
 
 		AST* visitCompound(AST* node);
 

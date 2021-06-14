@@ -11,6 +11,8 @@ namespace Hivo {
 		TOKEN_LPAREN,
 		TOKEN_RPAREN,
 		TOKEN_COMMA,
+		TOKEN_LBRACE,
+		TOKEN_RBRACE,
 		TOKEN_EOF
 	} TokenType;
 

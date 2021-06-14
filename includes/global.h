@@ -7,7 +7,7 @@ namespace Hivo {
 	static AST* NOOPAST = new AST(AST_NOOP);
 
 	constexpr const char* const VARIABLE_DEFINITION_KEYWORDS[] = { "let", "var" };
-	constexpr const char* const BUILTIN_FUNCTIONS[] = { "print", "println" };
+	constexpr const char* const BUILTIN_FUNCTIONS[] = { "print", "println", "pbrkp" };
 	constexpr const char* const FUNCTION_DEFINITION_KEYWORDS[] = { "function" };
 
 	constexpr const bool IS_VAR_DEFKW(const char* def) {

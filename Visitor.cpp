@@ -1,11 +1,12 @@
+#include <iostream>
+#include <stdio.h>
 #include "includes/Visitor.h"
 #include "includes/Utils.h"
 #include "includes/global.h"
-#include <iostream>
-#include <stdio.h>
 #include "includes/nameof.h"
 #include "includes/AST.h"
 #include "includes/builtin.h"
+#include "includes/scope.h"
 
 namespace Hivo {
 
@@ -27,8 +28,8 @@ namespace Hivo {
 		case AST_FUNCTION_CALL:
 			return this->visitFunctionCall(node);
 			break;
-		case AST_FUNCTION_DECLARATION:
-			return this->visitFuncionDeclaration(node);
+		case AST_FUNCTION_DEFINITION:
+			return this->visitFunctionDefinition(node);
 			break;
 		case AST_STRING:
 			return this->visitString(node);
@@ -48,24 +49,23 @@ namespace Hivo {
 
 	AST* Visitor::visitVariableDefinition(AST* node)
 	{
-		
-		this->variableDefinitionsSize++;
-		this->variableDefinitions.push_back(node);
+		addVariableDefinition(node->scope, node);
 
 		return node;
 	}
 
 	AST* Visitor::visitVariable(AST* node)
 	{
-		for (auto const& vardef : this->variableDefinitions)
+		AST* vdef = getVariableDefinition(node->scope, node->variableName);
+
+		if (vdef != nullptr)
+			return this->visit(vdef->variableDefinitionValue);
+
+		if (!IS_BUILTIN(node->variableName.c_str()))
 		{
-			if (vardef->variableDefinitionVariableName == node->variableName)
-			{
-				return this->visit(vardef->variableDefinitionValue);
-			}
-		}
-		if(!IS_BUILTIN(node->variableName.c_str()))
 			printf("Undefined variable '%s'\n", node->variableName.c_str());
+			exit(1);
+		}
 
 		return node;
 	}
@@ -78,18 +78,53 @@ namespace Hivo {
 	AST* Visitor::visitFunctionCall(AST* node)
 	{
 		if (IS_BUILTIN(node->functionCallName.c_str())) {
-			if (node->functionCallName == "print") 
+			if (node->functionCallName == "print")
 				return builtin_print(this, node->functionCallArguments, node->functionCallArgumentsSize);
-			else if (node->functionCallName == "println") 
+			else if (node->functionCallName == "println")
 				return builtin_println(this, node->functionCallArguments, node->functionCallArgumentsSize);
-
+			else if (node->functionCallName == "pbrkp")
+				return builtin_breakpoint(this, node->functionCallArguments, node->functionCallArgumentsSize);
 		}
-		return NOOPAST;
+		AST* fdef = getFunctionDefinition(
+			node->scope,
+			node->functionCallName
+		);
+
+		if (fdef == nullptr) {
+			printf("Undefined method `%s`\n", node->functionCallName.c_str());
+			exit(1);
+		}
+		if (node->functionCallArguments[0]->type != AST_NOOP && node->functionCallArgumentsSize > fdef->functionDefinitionArgs.size())
+		{
+			printf("Too many arguments passed to `%s()`, accepts only: %d argument(s)\n", node->functionCallName.c_str(), fdef->functionDefinitionArgs.size());
+			exit(1);
+		}
+		if (node->functionCallArgumentsSize < fdef->functionDefinitionArgs.size())
+		{
+			printf("Too few arguments passed to `%s()`, needs min: %d argument(s)\n", node->functionCallName.c_str(), fdef->functionDefinitionArgs.size());
+			exit(1);
+		}
+
+		for (int i = 0; i < fmin(fdef->functionDefinitionArgs.size(), node->functionCallArgumentsSize); i++)
+		{
+			auto var = (AST*)fdef->functionDefinitionArgs[i];
+			auto value = (AST*)node->functionCallArguments[i];
+			
+			AST* var_def = new AST(AST_VARIABLE_DEFINITION);
+			var_def->variableDefinitionVariableName = var->variableName;
+			var_def->variableDefinitionValue = value;
+			
+			addVariableDefinition(fdef->functionDefinitionBody->scope, var_def);
+		}
+
+		return this->visit(fdef->functionDefinitionBody);
 	}
 
-	AST* Visitor::visitFuncionDeclaration(AST* node)
-	{
-		throw NotImplemented(__func__);
+	AST* Visitor::visitFunctionDefinition(AST* node)
+	{		
+		addFunctionDefinition(node->scope, node);
+
+		return node;
 	}
 
 	AST* Visitor::visitCompound(AST* node)

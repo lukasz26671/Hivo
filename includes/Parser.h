@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Lexer.h"
 #include "AST.h"
-
+#include "scope.h"
 
 namespace Hivo {
 
@@ -13,32 +13,35 @@ namespace Hivo {
 		Token* currentToken;
 		Token* prevToken;
 		Token* prevPrevToken;
+		Scope* globalScope;
 
 		Parser(Lexer* lexer);
 		~Parser();
 		void eat(int tokenType);
 
-		AST* parse(Parser* parser);
+		AST* parse(Parser* parser, Scope* scope);
 
-		AST* parseStatement(Parser* parser);
+		AST* parseStatement(Parser* parser, Scope* scope);
 
-		AST* parseStatements(Parser* parser);
+		AST* parseStatements(Parser* parser, Scope* scope);
 
-		AST* parseExpr(Parser* parser);
+		AST* parseExpr(Parser* parser, Scope* scope);
 
-		AST* parseFactor(Parser* parser);
+		AST* parseFactor(Parser* parser, Scope* scope);
 
-		AST* parseTerm(Parser* parser);
+		AST* parseTerm(Parser* parser, Scope* scope);
 
-		AST* parseFunctionCall(Parser* parser);
+		AST* parseFunctionCall(Parser* parser, Scope* scope);
 
-		AST* parseVariable(Parser* parser);
+		AST* parseVariable(Parser* parser, Scope* scope);
 
-		AST* parseVariableDefinition(Parser* parser);
+		AST* parseVariableDefinition(Parser* parser, Scope* scope);
 
-		AST* parseString(Parser* parser);
+		AST* parseFunctionDefinition(Parser* parser, Scope* scope);
 
-		AST* parseID(Parser* parser);
+		AST* parseString(Parser* parser, Scope* scope);
+
+		AST* parseID(Parser* parser, Scope* scope);
 
 	};
 

@@ -2,5 +2,5 @@
 #include <iostream>
 
 namespace Hivo {
-	std::string getFileContents(std::string filePath, const bool& debugMode);
+	std::string getFileContents(const std::string& filePath, const bool& debugMode);
 }

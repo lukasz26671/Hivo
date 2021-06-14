@@ -13,12 +13,13 @@ namespace Hivo {
 		this->prevPrevToken = nullptr;
 		this->prevToken = nullptr;
 		this->currentToken = lexer->getNextToken(lexer);
+		this->globalScope = new Scope();
 	}
 	Parser::~Parser() {
 		delete this->lexer;
 		delete this->currentToken;
+		delete this->globalScope;
 	}
-
 
 	void Parser::eat(int tokenType) 
 	{
@@ -45,26 +46,35 @@ namespace Hivo {
 		}
 	}
 
-	AST* Parser::parse(Parser* parser)
+	static Scope* getNodeScope(Parser* parser, AST* node)
 	{
-		return parser->parseStatements(parser);
+		return node->scope == nullptr ? parser->globalScope : node->scope;
 	}
 
-	AST* Parser::parseStatement(Parser* parser)
+	AST* Parser::parse(Parser* parser, Scope* scope)
+	{
+		return parser->parseStatements(parser, scope);
+	}
+
+	AST* Parser::parseStatement(Parser* parser, Scope* scope)
 	{
 		switch (parser->currentToken->type) 
 		{
-			case TOKEN_ID: return parser->parseID(parser); 	
+			case TOKEN_ID: return parser->parseID(parser, scope); 	
 			case TOKEN_EOF: return NOOPAST;
 			default: return NOOPAST;
 		}
 		
 	}
 
-	AST* Parser::parseStatements(Parser* parser)
+	AST* Parser::parseStatements(Parser* parser, Scope* scope)
 	{
 		AST* compound = new AST(AST_COMPOUND);
-		AST* statement = parser->parseStatement(parser);
+		compound->scope = scope;
+
+		AST* statement = parser->parseStatement(parser, scope);
+		statement->scope = scope;
+
 		if (statement) {
 			compound->compoundValue.push_back(statement);
 			compound->compoundSize++;
@@ -72,7 +82,7 @@ namespace Hivo {
 			while (parser->currentToken->type == TOKEN_SEMI && parser->currentToken->type != TOKEN_EOF)
 			{
 				parser->eat(TOKEN_SEMI);
-				AST* statement = parser->parseStatement(parser);
+				AST* statement = parser->parseStatement(parser, scope);
 				compound->compoundValue.push_back(statement);
 				compound->compoundSize++;
 			}
@@ -80,28 +90,28 @@ namespace Hivo {
 		return compound;
 	}
 
-	AST* Parser::parseExpr(Parser* parser)
+	AST* Parser::parseExpr(Parser* parser, Scope* scope)
 	{
 		switch (parser->currentToken->type)
 		{
-			case TOKEN_STRING: return parser->parseString(parser);
-			case TOKEN_ID: return parser->parseID(parser);
+			case TOKEN_STRING: return parser->parseString(parser, scope);
+			case TOKEN_ID: return parser->parseID(parser, scope);
 			default: return NOOPAST;
 		}
 
 	}
 
-	AST* Parser::parseFactor(Parser* parser)
+	AST* Parser::parseFactor(Parser* parser, Scope* scope)
 	{
-		return nullptr;
+		throw new NotImplemented();
 	}
 
-	AST* Parser::parseTerm(Parser* parser)
+	AST* Parser::parseTerm(Parser* parser, Scope* scope)
 	{
-		return nullptr;
+		throw new NotImplemented();
 	}
 
-	AST* Parser::parseFunctionCall(Parser* parser)
+	AST* Parser::parseFunctionCall(Parser* parser, Scope* scope)
 	{
 		AST* functionCall = new AST(AST_FUNCTION_CALL);
 
@@ -111,7 +121,7 @@ namespace Hivo {
 
 		std::string varName = parser->currentToken->value;
 
-		AST* param = parser->parseExpr(parser);
+		AST* param = parser->parseExpr(parser, scope);
 		param->variableName = varName;
 
 		/* Add argument to arguments list*/
@@ -123,7 +133,7 @@ namespace Hivo {
 			parser->eat(TOKEN_COMMA);
 			/* Assign arguments to a function */
 			std::string varName = parser->currentToken->value;
-			AST* param = parser->parseExpr(parser);
+			AST* param = parser->parseExpr(parser, scope);
 			param->variableName = varName;
 
 			/* Add argument to arguments list*/
@@ -135,10 +145,12 @@ namespace Hivo {
 		}
 		parser->eat(TOKEN_RPAREN);
 		
+		functionCall->scope = scope;
+
 		return functionCall;
 	}
 
-	AST* Parser::parseVariable(Parser* parser)
+	AST* Parser::parseVariable(Parser* parser, Scope* scope)
 	{
 		std::string tokenValue = parser->currentToken->value;
 		/* Variable name or function call */
@@ -146,16 +158,55 @@ namespace Hivo {
 
 		/* Parse function call */
 		if (parser->currentToken->type == TOKEN_LPAREN)
-			return parser->parseFunctionCall(parser);
+			return parser->parseFunctionCall(parser, scope);
 
 		/* Assign a variable */
 		AST* variable = new AST(AST_VARIABLE);
 		variable->variableName = tokenValue;
 
+		variable->scope = scope;
+
 		return variable;
 	}
+	AST* Parser::parseFunctionDefinition(Parser* parser, Scope* scope)
+	{
+		AST* functionDef = new AST(AST_FUNCTION_DEFINITION);
 
-	AST* Parser::parseVariableDefinition(Parser* parser)
+		/* Function definition keyword */
+		parser->eat(TOKEN_ID);
+
+		/* Function name */
+		std::string functionName = parser->currentToken->value;
+		parser->eat(TOKEN_ID);
+
+		parser->eat(TOKEN_LPAREN);		
+		if (parser->currentToken->type != TOKEN_RPAREN) {
+			AST* arg = parser->parseVariable(parser, scope);
+			functionDef->functionDefinitionArgs.push_back(arg);
+		}
+		while (parser->currentToken->type == TOKEN_COMMA)
+		{
+			parser->eat(TOKEN_COMMA);
+
+			AST* arg = parser->parseVariable(parser, scope);
+			functionDef->functionDefinitionArgs.push_back(arg);
+		}
+
+		parser->eat(TOKEN_RPAREN);
+		parser->eat(TOKEN_LBRACE);
+		
+		AST* compound = parser->parseStatements(parser, scope);
+
+		functionDef->functionName = functionName;
+		functionDef->functionDefinitionBody = compound;
+
+		parser->eat(TOKEN_RBRACE);
+		
+		functionDef->scope = scope;
+
+		return functionDef;
+	}
+	AST* Parser::parseVariableDefinition(Parser* parser, Scope* scope)
 	{
 		/* Variable definition keyword */
 		parser->eat(TOKEN_ID); 
@@ -168,7 +219,7 @@ namespace Hivo {
 		parser->eat(TOKEN_EQUALS);
 
 		/* Parse expression */ 
-		AST* variableValue = parser->parseExpr(parser);
+		AST* variableValue = parser->parseExpr(parser, scope);
 
 		/* Create a new variable definition */
 		AST* variableDefinition = new AST(AST_VARIABLE_DEFINITION);
@@ -176,26 +227,31 @@ namespace Hivo {
 		variableDefinition->variableDefinitionVariableName = variableName;
 		variableDefinition->variableDefinitionValue = variableValue;
 
+		variableDefinition->scope = scope;
 
 		return variableDefinition;
 	}
 
-	AST* Parser::parseString(Parser* parser)
+	AST* Parser::parseString(Parser* parser, Scope* scope)
 	{
 		AST* string = new AST(AST_STRING);
 		string->stringValue = parser->currentToken->value;
 
 		parser->eat(TOKEN_STRING);
-
+		string->scope = scope;
 		return string;
 	}
-	AST* Parser::parseID(Parser* parser)
+	AST* Parser::parseID(Parser* parser, Scope* scope)
 	{
 		if (IS_VAR_DEFKW(parser->currentToken->value.c_str())) {
-			return parser->parseVariableDefinition(parser);
+			return parser->parseVariableDefinition(parser, scope);
+		}
+		else if (IS_FN_DEFKW(parser->currentToken->value.c_str()))
+		{
+			return parser->parseFunctionDefinition(parser, scope);
 		}
 
-		return parser->parseVariable(parser);
+		return parser->parseVariable(parser, scope);
 	}
 
 }

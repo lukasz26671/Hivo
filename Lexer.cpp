@@ -72,6 +72,14 @@ namespace Hivo {
 					return advanceWithToken(lexer, initToken(TOKEN_COMMA, lexer->getCurrentCharAsString(lexer)));
 					break;
 				}
+				case '{': {
+					return advanceWithToken(lexer, initToken(TOKEN_LBRACE, lexer->getCurrentCharAsString(lexer)));
+					break;
+				}
+				case '}': {
+					return advanceWithToken(lexer, initToken(TOKEN_RBRACE, lexer->getCurrentCharAsString(lexer)));
+					break;
+				}
 			}
 			
 		}
@@ -100,7 +108,7 @@ namespace Hivo {
 	{
 		std::string value;
 
-		while (isalnum(lexer->c))
+		while (isalnum(lexer->c) || lexer->c == '_')
 		{
 			std::string s = getCurrentCharAsString(lexer);
 

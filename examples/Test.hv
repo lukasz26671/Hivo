@@ -7,3 +7,20 @@ let helloWorld = "Hello, world!";
 let abcdefg = "123";//abc
 
 println(helloWorld);//a
+
+function newLine()
+{
+	println("");
+};
+
+function sayHi(phase1, phase2) //
+{
+	newLine();
+	
+	println("from sayHi!");
+	print(phase1);
+	println(phase2);
+};
+
+
+sayHi("Henlo, ");

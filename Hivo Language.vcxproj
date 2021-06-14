@@ -145,6 +145,7 @@
     <ClCompile Include="io.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="scope.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="includes\Lexer.h" />
     <ClInclude Include="includes\nameof.h" />
     <ClInclude Include="includes\Parser.h" />
+    <ClInclude Include="includes\scope.h" />
     <ClInclude Include="includes\Token.h" />
     <ClInclude Include="includes\Utils.h" />
     <ClInclude Include="includes\Visitor.h" />

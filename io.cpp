@@ -6,7 +6,7 @@
 #include <sstream>
 
 namespace Hivo {
-	std::string getFileContents(std::string filePath, const bool& debugMode=false)
+	std::string getFileContents(const std::string& filePath, const bool& debugMode=false)
 	{
 		std::ifstream sourceFile;
 		std::string contents;
@@ -22,12 +22,14 @@ namespace Hivo {
 
 				if (line == "") continue;
 
-				size_t oneLineCommentPos = line.find("//");
+				auto oneLineCommentPos = line.find("//");
 				for (int i = oneLineCommentPos; i < line.length(); i++)
 				{
 					char c = line[i];
 					if (c == '\n') break;
-					if (line[i - 1] == '"' || line[i - 1] == '\'') break;
+					if (i != 0) {
+						if (line[i - 1] == '"' || line[i - 1] == '\'') break;
+					}
 
 					line.erase(i);
 				}
@@ -38,6 +40,7 @@ namespace Hivo {
 			if (contents == "")
 			{
 				printf("File %s is empty", filePath.c_str());
+				exit(2);
 			}
 
 			if(debugMode)
