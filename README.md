@@ -8,7 +8,26 @@ Its' JS-Like syntax will make learning a lot easier.
 Main purpose of Hivo is making cross-site requests very simple, with a minimum of effort realistically.  
 Underlying level of abstraction provides easy access to OS level functions as well as other language execution.  
 
+### Compatibillity
+
+
+
 #### Examples
+
+##### Run a program
+
+- shell  
+```console
+foo@bar:~$ Hivo helloworld.hv
+```
+- Powershell
+```powershell
+PS C:\users\user> Hivo helloworld.hv 
+```
+- Cmd
+```cmd
+C:\users\user Hivo helloworld.hv
+```
 
 ##### Hello World
 
