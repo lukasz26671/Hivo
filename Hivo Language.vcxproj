@@ -18,6 +18,31 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\includes\AST.h" />
+    <ClInclude Include="src\includes\builtin.h" />
+    <ClInclude Include="src\includes\global.h" />
+    <ClInclude Include="src\includes\Hivo.h" />
+    <ClInclude Include="src\includes\io.h" />
+    <ClInclude Include="src\includes\Lexer.h" />
+    <ClInclude Include="src\includes\nameof.h" />
+    <ClInclude Include="src\includes\Parser.h" />
+    <ClInclude Include="src\includes\scope.h" />
+    <ClInclude Include="src\includes\Token.h" />
+    <ClInclude Include="src\includes\Utils.h" />
+    <ClInclude Include="src\includes\Visitor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AST.cpp" />
+    <ClCompile Include="src\Hivo.cpp" />
+    <ClCompile Include="src\io.cpp" />
+    <ClCompile Include="src\Lexer.cpp" />
+    <ClCompile Include="src\Parser.cpp" />
+    <ClCompile Include="src\scope.cpp" />
+    <ClCompile Include="src\Token.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
+    <ClCompile Include="src\Visitor.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -139,33 +164,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="AST.cpp" />
-    <ClCompile Include="Hivo.cpp" />
-    <ClCompile Include="io.cpp" />
-    <ClCompile Include="Lexer.cpp" />
-    <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="scope.cpp" />
-    <ClCompile Include="Token.cpp" />
-    <ClCompile Include="Visitor.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="includes\AST.h" />
-    <ClInclude Include="includes\builtin.h" />
-    <ClInclude Include="includes\global.h" />
-    <ClInclude Include="includes\Hivo.h" />
-    <ClInclude Include="includes\io.h" />
-    <ClInclude Include="includes\Lexer.h" />
-    <ClInclude Include="includes\nameof.h" />
-    <ClInclude Include="includes\Parser.h" />
-    <ClInclude Include="includes\scope.h" />
-    <ClInclude Include="includes\Token.h" />
-    <ClInclude Include="includes\Utils.h" />
-    <ClInclude Include="includes\Visitor.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="examples\Test.hv" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
