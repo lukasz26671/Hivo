@@ -1,12 +1,8 @@
 #include "includes/io.h"
-#include <iostream>
-#include <fstream>
-#include <stdio.h>
-#include <string>
-#include <sstream>
+#include <regex>
 
 namespace Hivo {
-	std::string getFileContents(const std::string& filePath, const bool& debugMode=false)
+	std::string getFileContents(const std::string& filePath, const bool& showContents=false)
 	{
 		std::ifstream sourceFile;
 		std::string contents;
@@ -22,8 +18,8 @@ namespace Hivo {
 
 				if (line == "") continue;
 
-				auto oneLineCommentPos = line.find("//");
-				for (int i = oneLineCommentPos; i < line.length(); i++)
+				auto inlineCommentPos = line.find("//");
+				for (int i = inlineCommentPos; i < line.length(); i++)
 				{
 					char c = line[i];
 					if (c == '\n') break;
@@ -43,7 +39,13 @@ namespace Hivo {
 				exit(2);
 			}
 
-			if(debugMode)
+			//Newline replace
+			{
+				using std::regex_replace; using std::regex;
+				contents = regex_replace(contents, regex("\\n"), "\n");
+			}
+
+			if(showContents)
 				std::cout << contents;
 
 			sourceFile.close();

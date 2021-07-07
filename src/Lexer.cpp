@@ -8,7 +8,7 @@ namespace Hivo {
 
 	Token* advanceWithToken(Lexer* lexer, Token* token);
 
-	Lexer::Lexer(std::string contents)
+	Lexer::Lexer(const std::string& contents)
 	{
 		this->contents = contents;
 		this->i = 0;

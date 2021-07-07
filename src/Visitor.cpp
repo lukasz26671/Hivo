@@ -1,13 +1,6 @@
 #include <iostream>
 #include <stdio.h>
-#include "includes/Visitor.h"
-#include "includes/Utils.h"
-#include "includes/global.h"
-#include "includes/nameof.h"
-#include "includes/AST.h"
-#include "includes/builtin.h"
-#include "includes/scope.h"
-
+#include "includes/Hivo.h"
 namespace Hivo {
 
 	Visitor::Visitor() { }

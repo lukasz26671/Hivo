@@ -23,7 +23,7 @@ namespace Hivo {
 		std::string value;
 	} Token;
 
-	Token* initToken(int type, std::string value);
+	Token* initToken(int type, const std::string& value);
 
 	static Token* currentLexerToken = nullptr;
 	static Token* prevLexerToken = nullptr;

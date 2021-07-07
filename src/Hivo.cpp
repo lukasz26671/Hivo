@@ -1,13 +1,7 @@
 ﻿#include <iostream>
-#include "includes/Lexer.h"
 #include <stdio.h>
-#include "includes/Parser.h"
-#include "includes/global.h"
 #include <numeric>
-#include "includes/Visitor.h"
-#include "includes/io.h"
 #include "includes/Hivo.h"
-
 
 using namespace Hivo;
 
@@ -18,9 +12,11 @@ void PrintTrace(Hivo::AST* root)
     for (auto const& node : root->compoundValue)
     {
         auto nodeType = node->type;
+
         std::string value;
         std::string adValue;
         std::string bltn;
+
         int k = 0;
         switch (nodeType) {
 
@@ -65,7 +61,7 @@ typedef struct HIVO_STRUCT{
     AST* root;
     Visitor* visitor;
 
-    void init(std::string sourceCode, bool printTrace=false) {
+    void init(const std::string& sourceCode, bool printTrace=false) {
         lexer = new Lexer(sourceCode);
         parser = new Parser(lexer);
         root = parser->parse(parser, parser->globalScope);
@@ -107,7 +103,7 @@ int main(int argc, char** argv)
     bool debug = false;
 #endif
 
-    HivoInternals* HivoLanguage = new HivoInternals();
+    HivoInternals HivoLanguage;
     if (argc > 1) {
 
         bool debug = false;
@@ -117,9 +113,9 @@ int main(int argc, char** argv)
         if (argc > 2) 
             debug = strcmp(argv[2], "-d") == 0;
         
-        HivoLanguage->init(sourceCode, debug);
+        HivoLanguage.init(sourceCode, debug);
 
-        HivoLanguage->deinit();
+        HivoLanguage.deinit();
     }
     else {
 #ifndef _DEBUG
@@ -130,12 +126,12 @@ int main(int argc, char** argv)
         if (argc > 2)
             debug = strcmp(argv[2], "-d") == 0;
 
-        HivoLanguage->init(sourceCode, debug);
+        HivoLanguage.init(sourceCode, debug);
 
-        HivoLanguage->deinit();
+        HivoLanguage.deinit();
 #endif
     }
-    delete HivoLanguage;
+    //delete HivoLanguage;
 
     std::cout << "\n" << "Press enter or return key to end." << "\n";
 

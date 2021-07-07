@@ -1,10 +1,7 @@
 #include <iostream>
 #include <stdio.h>
-#include "includes/Parser.h"
-#include "includes/AST.h"
-#include "includes/Lexer.h"
-#include "includes/Token.h"
-#include "includes/global.h"
+#include <memory>
+#include "includes/Hivo.h"
 
 namespace Hivo {
 	Parser::Parser(Lexer* lexer) 
@@ -61,8 +58,9 @@ namespace Hivo {
 		switch (parser->currentToken->type) 
 		{
 			case TOKEN_ID: return parser->parseID(parser, scope); 	
-			case TOKEN_EOF: return NOOPAST;
-			default: return NOOPAST;
+			case TOKEN_EOF: 
+			default: 
+				return NOOPAST;
 		}
 		
 	}
@@ -114,7 +112,6 @@ namespace Hivo {
 	AST* Parser::parseFunctionCall(Parser* parser, Scope* scope)
 	{
 		AST* functionCall = new AST(AST_FUNCTION_CALL);
-
 		/*Expect argument pass */
 		parser->eat(TOKEN_LPAREN);
 		functionCall->functionCallName = parser->prevPrevToken->value;
@@ -236,7 +233,6 @@ namespace Hivo {
 	{
 		AST* string = new AST(AST_STRING);
 		string->stringValue = parser->currentToken->value;
-
 		parser->eat(TOKEN_STRING);
 		string->scope = scope;
 		return string;

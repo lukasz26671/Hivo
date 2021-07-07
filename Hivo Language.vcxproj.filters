@@ -84,4 +84,9 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="examples\Test.hv">
+      <Filter>Pliki źródłowe\examples</Filter>
+    </None>
+  </ItemGroup>
 </Project>

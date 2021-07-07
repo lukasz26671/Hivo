@@ -5,7 +5,7 @@
 
 namespace Hivo {
 
-	Token* initToken(int type, std::string value)
+	Token* initToken(int type, const std::string& value)
 	{
 		Token* token = new Token();
 		token->type = TokenTypeCast(type);

@@ -10,7 +10,7 @@ namespace Hivo {
 		unsigned int i = 0;
 		std::string contents = "";
 
-		Lexer(std::string contents);
+		Lexer(const std::string& contents);
 		//~Lexer();
 		void advance();
 

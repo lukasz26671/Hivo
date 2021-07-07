@@ -3,9 +3,10 @@
 #include <stdio.h>
 #include "AST.h"
 #include "global.h"
+#include "Visitor.h"
 namespace Hivo {
 
-	static AST* builtin_print(Visitor* visitor, std::vector<AST*> args, int argc, bool newline=false)
+	static AST* builtin_print(Visitor* visitor, const std::vector<AST*>& args, int argc, bool newline=false)
 	{
 		if (argc == 0 || args.size() == 0)
 		{
@@ -44,17 +45,16 @@ namespace Hivo {
 
 		return NOOPAST;
 	}
-	static AST* builtin_println(Visitor* visitor, std::vector<AST*> args, int argc)
+	static AST* builtin_println(Visitor* visitor, const std::vector<AST*>& args, int argc)
 	{
 		return builtin_print(visitor, args, argc, true);
 	}
 
-	static AST* builtin_breakpoint(Visitor* visitor, std::vector<AST*> args, int argc)
+	static AST* builtin_breakpoint(Visitor* visitor, const std::vector<AST*>& args, int argc)
 	{
 		printf("\nHit breakpoint!. Press enter to continue...\n");
-		std::string ps = "";
-		std::getline(std::cin, ps);
-
+		std::cin.get();
+		
 		return NOOPAST;
 	}
 	

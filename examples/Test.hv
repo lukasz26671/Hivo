@@ -4,23 +4,21 @@ println(hv);
 
 let helloWorld = "Hello, world!";
 
-let abcdefg = "123";//abc
+let abcdefg = "123";
 
-println(helloWorld);//a
+println(helloWorld);
 
 function newLine()
 {
 	println("");
 };
 
-function sayHi(phase1, phase2) //
+//This function says Hi to supplied name parameter
+function sayHi(name) 
 {
-	newLine();
-	
-	println("from sayHi!");
-	print(phase1);
-	println(phase2);
+	print("Hello, ");
+	print(name);
 };
 
-
-sayHi("Henlo, ");
+sayHi("Lukasz");
+pbrkp();
